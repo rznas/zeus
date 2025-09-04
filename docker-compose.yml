@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: hub.hamdocker.ir/postgres
+    container_name: zeus-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-zeus}
+      POSTGRES_USER: ${POSTGRES_USER:-zeus}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-zeus}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: hub.hamdocker.ir/redis
+    container_name: zeus-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redisdata:/data
+
+volumes:
+  pgdata:
+  redisdata: 

@@ -1,0 +1,94 @@
+basePath: /
+definitions:
+  routes.otpVerifyReq:
+    properties:
+      code:
+        type: string
+      phone:
+        type: string
+    type: object
+  routes.phoneReq:
+    properties:
+      phone:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Fiber + GORM + Redis user service with OTP and JWT.
+  title: Zeus API
+  version: "1.0"
+paths:
+  /api/auth/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Phone
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/routes.phoneReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Login (request OTP)
+      tags:
+      - Auth
+  /api/auth/otp/verify:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Verify
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/routes.otpVerifyReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Verify OTP (register/login)
+      tags:
+      - Auth
+  /api/users:
+    get:
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Page Size
+        in: query
+        name: page_size
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: List users
+      tags:
+      - Users
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
