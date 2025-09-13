@@ -8,8 +8,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 
-	"github.com/reza/zeus/internal/models"
-	"github.com/reza/zeus/internal/services"
+	"github.com/rznas/zeus/internal/models"
+	"github.com/rznas/zeus/internal/services"
 )
 
 type AuthHandlers struct {

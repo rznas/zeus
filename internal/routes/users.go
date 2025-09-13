@@ -6,7 +6,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 
-	"github.com/reza/zeus/internal/repositories"
+	"github.com/rznas/zeus/internal/repositories"
 )
 
 type UsersHandlers struct {

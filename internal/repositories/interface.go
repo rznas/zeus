@@ -3,7 +3,7 @@ package repositories
 import (
 	"context"
 
-	"github.com/reza/zeus/internal/models"
+	"github.com/rznas/zeus/internal/models"
 )
 
 type UserRepository interface {

@@ -13,14 +13,14 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/swagger"
 
-	docs "github.com/reza/zeus/docs"
-	"github.com/reza/zeus/internal/config"
-	"github.com/reza/zeus/internal/db"
-	"github.com/reza/zeus/internal/middleware"
-	"github.com/reza/zeus/internal/models"
-	"github.com/reza/zeus/internal/repositories"
-	"github.com/reza/zeus/internal/routes"
-	"github.com/reza/zeus/internal/services"
+	docs "github.com/rznas/zeus/docs"
+	"github.com/rznas/zeus/internal/config"
+	"github.com/rznas/zeus/internal/db"
+	"github.com/rznas/zeus/internal/middleware"
+	"github.com/rznas/zeus/internal/models"
+	"github.com/rznas/zeus/internal/repositories"
+	"github.com/rznas/zeus/internal/routes"
+	"github.com/rznas/zeus/internal/services"
 )
 
 // @title Zeus API

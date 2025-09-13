@@ -5,7 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
-	"github.com/reza/zeus/internal/services"
+	"github.com/rznas/zeus/internal/services"
 )
 
 type contextKey string

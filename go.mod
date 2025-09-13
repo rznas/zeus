@@ -1,4 +1,4 @@
-module github.com/reza/zeus
+module github.com/rznas/zeus
 
 go 1.24.5
 
