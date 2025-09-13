@@ -52,6 +52,9 @@ func (h *AuthHandlers) requestOTP(c *fiber.Ctx) error {
 	phone := normalizePhone(req.Phone)
 	code, err := h.OTP.Generate(c.Context(), phone)
 	if err != nil {
+		if err == services.ErrRateLimitExceeded {
+			return c.Status(fiber.StatusTooManyRequests).JSON(fiber.Map{"error": "rate limit exceeded, please try again later"})
+		}
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "otp error"})
 	}
 	if h.Env == "development" {

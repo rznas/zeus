@@ -17,7 +17,7 @@ func TestOTPService_GenerateAndVerify(t *testing.T) {
 	defer mr.Close()
 
 	rdb := redisv9.NewClient(&redisv9.Options{Addr: mr.Addr()})
-	svc := NewOTPService(rdb, 60)
+	svc := NewOTPService(rdb, 1, 3, 60) // for line 53
 	ctx := context.Background()
 
 	code, err := svc.Generate(ctx, "+15551234567")
@@ -50,7 +50,7 @@ func TestOTPService_TTL(t *testing.T) {
 	defer mr.Close()
 
 	rdb := redisv9.NewClient(&redisv9.Options{Addr: mr.Addr()})
-	svc := NewOTPService(rdb, 1)
+	svc := NewOTPService(rdb, 1, 3, 60) // for line 53
 	ctx := context.Background()
 
 	code, err := svc.Generate(ctx, "+15557654321")

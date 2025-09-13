@@ -63,7 +63,7 @@ func main() {
 	}
 
 	// Services
-	otpSvc := services.NewOTPService(redisClient, cfg.App.OTPTTLSeconds)
+	otpSvc := services.NewOTPService(redisClient, cfg.App.OTPTTLSeconds, cfg.App.OTPRatePerMin, cfg.App.OTPRateLimitSeconds)
 	jwtSvc := services.NewJWTService(cfg.App.JWTSecret, cfg.App.JWTExpiresMinutes)
 
 	// repository

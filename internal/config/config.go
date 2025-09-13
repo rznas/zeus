@@ -10,13 +10,14 @@ import (
 
 // AppConfig holds application-level settings
 type AppConfig struct {
-	Port              string
-	Env               string
-	JWTSecret         string
-	JWTExpiresMinutes int
-	RateLimitPerMin   int
-	OTPRatePerMin     int
-	OTPTTLSeconds     int
+	Port                string
+	Env                 string
+	JWTSecret           string
+	JWTExpiresMinutes   int
+	RateLimitPerMin     int
+	OTPRatePerMin       int
+	OTPTTLSeconds       int
+	OTPRateLimitSeconds int // New field for rate limiting timeout
 }
 
 // PostgresConfig holds Postgres settings
@@ -77,13 +78,14 @@ func Load() *Config {
 
 	cfg := &Config{
 		App: AppConfig{
-			Port:              getenv("APP_PORT", "8080"),
-			Env:               getenv("APP_ENV", "development"),
-			JWTSecret:         getenv("JWT_SECRET", "supersecretjwt"),
-			JWTExpiresMinutes: getenvInt("JWT_EXPIRES_MINUTES", 60),
-			RateLimitPerMin:   getenvInt("RATE_LIMIT_PER_MINUTE", 60),
-			OTPRatePerMin:     getenvInt("OTP_RATE_LIMIT_PER_MINUTE", 3),
-			OTPTTLSeconds:     getenvInt("OTP_TTL_SECONDS", 300),
+			Port:                getenv("APP_PORT", "8080"),
+			Env:                 getenv("APP_ENV", "development"),
+			JWTSecret:           getenv("JWT_SECRET", "supersecretjwt"),
+			JWTExpiresMinutes:   getenvInt("JWT_EXPIRES_MINUTES", 60),
+			RateLimitPerMin:     getenvInt("RATE_LIMIT_PER_MINUTE", 60),
+			OTPRatePerMin:       getenvInt("OTP_RATE_LIMIT_PER_MINUTE", 3),
+			OTPTTLSeconds:       getenvInt("OTP_TTL_SECONDS", 300),
+			OTPRateLimitSeconds: getenvInt("OTP_RATE_LIMIT_TIMEOUT_SECONDS", 60), // New config
 		},
 		Postgres: PostgresConfig{
 			Host:     getenv("POSTGRES_HOST", "localhost"),
