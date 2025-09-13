@@ -18,6 +18,7 @@ import (
 	"github.com/reza/zeus/internal/db"
 	"github.com/reza/zeus/internal/middleware"
 	"github.com/reza/zeus/internal/models"
+	"github.com/reza/zeus/internal/repositories"
 	"github.com/reza/zeus/internal/routes"
 	"github.com/reza/zeus/internal/services"
 )
@@ -65,6 +66,9 @@ func main() {
 	otpSvc := services.NewOTPService(redisClient, cfg.App.OTPTTLSeconds)
 	jwtSvc := services.NewJWTService(cfg.App.JWTSecret, cfg.App.JWTExpiresMinutes)
 
+	// repository
+	userRepo := repositories.NewUserRepository(gormDB)
+
 	app := fiber.New()
 	app.Use(recover.New())
 	app.Use(logger.New())
@@ -92,7 +96,7 @@ func main() {
 
 	// Routes
 	auth := &routes.AuthHandlers{DB: gormDB, OTP: otpSvc, JWT: jwtSvc, Env: cfg.App.Env}
-	users := &routes.UsersHandlers{DB: gormDB}
+	users := &routes.UsersHandlers{UserRepo: userRepo}
 
 	api := app.Group("/api")
 	auth.RegisterRoutes(api.Group("/auth"))

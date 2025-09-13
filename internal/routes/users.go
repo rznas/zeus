@@ -5,13 +5,12 @@ import (
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
-	"gorm.io/gorm"
 
-	"github.com/reza/zeus/internal/models"
+	"github.com/reza/zeus/internal/repositories"
 )
 
 type UsersHandlers struct {
-	DB *gorm.DB
+	UserRepo repositories.UserRepository
 }
 
 func (h *UsersHandlers) RegisterRoutes(r fiber.Router) {
@@ -35,15 +34,12 @@ func (h *UsersHandlers) listUsers(c *fiber.Ctx) error {
 	if pageSize < 1 || pageSize > 100 {
 		pageSize = 20
 	}
-	var users []models.User
-	var total int64
-	q := h.DB.WithContext(context.Background()).Model(&models.User{})
-	if err := q.Count(&total).Error; err != nil {
+
+	users, total, err := h.UserRepo.List(context.Background(), page, pageSize)
+	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "db error"})
 	}
-	if err := q.Order("created_at desc").Offset((page - 1) * pageSize).Limit(pageSize).Find(&users).Error; err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "db error"})
-	}
+
 	return c.JSON(fiber.Map{
 		"data":      users,
 		"page":      page,

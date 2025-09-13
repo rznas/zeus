@@ -27,3 +27,33 @@ services:
 volumes:
   pgdata:
   redisdata: 
+  zeus:
+    build: .
+    container_name: zeus-app
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    environment:
+      - APP_PORT=${APP_PORT:-8080}
+      - APP_ENV=${APP_ENV:-development}
+      - APP_RATE_LIMIT_PER_MIN=${APP_RATE_LIMIT_PER_MIN:-100}
+      - APP_OTP_TTL_SECONDS=${APP_OTP_TTL_SECONDS:-300}
+      - APP_JWT_SECRET=${APP_JWT_SECRET:-your-secret-key}
+      - APP_JWT_EXPIRES_MINUTES=${APP_JWT_EXPIRES_MINUTES:-60}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
+      - POSTGRES_DB=${POSTGRES_DB:-zeus}
+      - POSTGRES_USER=${POSTGRES_USER:-zeus}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-zeus}
+      - REDIS_ADDR=redis:6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
+      - REDIS_DB=${REDIS_DB:-0}
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - zeus-network
+
+networks:
+  zeus-network:
+    driver: bridge
